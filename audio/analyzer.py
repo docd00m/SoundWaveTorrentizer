@@ -9,6 +9,7 @@ from tqdm import tqdm
 from api.Freeimagehost import upload_image
 from format.data import seconds_to_hhmmss
 from format.output import bbcode
+import eac_logchecker
 
 
 def get_audio_codec(file_path):
@@ -69,6 +70,14 @@ def analyze_album(album_path, upload_spectrogram=False):
     Returns:
     - dict: Dictionary containing information about the analyzed album.
     """
+    # Playing with EAC log checking.  It works but there are some limitations that need more testing.
+    # has_log = False
+    # log_files = [file for file in os.listdir(album_path) if file.lower().endswith('.log')]
+    # for log_file in tqdm(log_files, desc="Verify eac logs", unit="files"):
+    #     log_file_path = os.path.join(album_path, log_file)
+    #     log_check_result = eac_logchecker.check_checksum(log_file_path)
+        # if log_check_result
+
     flac_files = [file for file in os.listdir(album_path) if file.lower().endswith('.flac')]
     album = {}
 

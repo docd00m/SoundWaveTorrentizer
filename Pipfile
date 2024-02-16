@@ -11,6 +11,7 @@ mutagen = "*"
 tqdm = "*"
 requests = "*"
 torf = "*"
+eac-logchecker = "*"
 
 [dev-packages]
 
