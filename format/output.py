@@ -42,8 +42,29 @@ def bbcode_compact(metadata):
     # TODO: rework metadata so it contains album info instead of pulling summary info from first track.
     # TODO: add albumartist, album, and release date to metadata for a better summary
     first_track = list(metadata.values())[0]
-    output = (f"[size=22][b][/b][/size]\n"
-              f"[size=16]{first_track["codec"]} / {first_track["channels"]} ch / {first_track["bits_per_sample"]} bit"
+    output = ""
+    if "albumartist" in first_track:
+        output += "[size=22][b]"
+        if "musicbrainz_albumartistid" in first_track:
+            output += f"[url=https://musicbrainz.org/artist/{first_track["musicbrainz_albumartistid"]}]"
+        output += first_track["albumartist"]
+        if "musicbrainz_albumartistid" in first_track:
+            output += "[/url]"
+        output += "[/b][/size]\n"
+
+    if "album" in first_track:
+        output += "[size=22][b]"
+        if "musicbrainz_albumid" in first_track:
+            output += f"[url=https://musicbrainz.org/release/{first_track['musicbrainz_albumid']}]"
+        output += first_track["album"]
+        if "musicbrainz_albumid" in first_track:
+            output += "[/url]"
+        output += "[/b][/size]\n"
+
+    if "date" in first_track:
+        output += f"[size=16]{first_track["date"]}[/size]\n"
+
+    output += (f"[size=16]{first_track["codec"]} / {first_track["channels"]} ch / {first_track["bits_per_sample"]} bit"
               f" / {first_track["sample_rate"]}[/size]\n\n[list=1]")
 
     for track, track_info in metadata.items():
