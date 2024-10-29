@@ -1,6 +1,7 @@
 import os
 import tempfile
 import matplotlib.pyplot as plt
+from pathlib import Path
 import hashlib
 import numpy as np
 from pydub import AudioSegment
@@ -127,6 +128,13 @@ def analyze_album(album_path, upload_spectrogram=False):
             print(f"Uploading spectrograms for tracks: {', '.join(tracks_to_upload_spectrograms)}")
 
     with alive_bar(len(flac_files), title='Processing tracks', bar='classic', spinner='classic', length=40) as bar:
+        # Try to find some art.
+        # TODO: find embedded cover art too.
+        albumart = {}
+        for file in os.listdir(album_path):
+            if (file.endswith('.jpg') or file.endswith('.png')) or file.lower().endswith('.gif'):
+                albumart[Path(file).stem] = upload_image(os.path.join(album_path, file))
+
         for file in flac_files:
             file_path = os.path.join(album_path, file)
             track_number = get_track_number(file_path)  # This function should return the track number as a string
@@ -135,6 +143,8 @@ def analyze_album(album_path, upload_spectrogram=False):
                                          any(track_number == track.lstrip('0') for track in
                                              tracks_to_upload_spectrograms))
             flac_info = get_flac_info(file_path, should_upload_spectrogram)
+            # TODO: rework this to have album metadata and attach this to that instead.
+            flac_info["albumart"] = albumart
             file_name = os.path.basename(file_path)
             album[file_name] = flac_info
             bar()
