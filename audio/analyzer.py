@@ -191,19 +191,20 @@ def get_flac_info(file_path, upload_spectrogram=False):
 
         audio = FLAC(file_path)
 
+
+
         if 'tracknumber' in audio:
             result['#'] = audio['tracknumber'][0]
         else:
             result['#'] = "-"
 
-        if 'artist' in audio:
-            result['artist'] = audio['artist'][0]
-        else:
+        for tag, value in audio.tags:
+            result[tag.lower()] = value
+
+        if 'artist' not in result:
             result['artist'] = "Unknown"
 
-        if 'title' in audio:
-            result['title'] = audio['title'][0]
-        else:
+        if 'title' not in audio:
             result['title'] = "Unknown"
 
         result['duration'] = seconds_to_hhmmss(audio.info.length)
