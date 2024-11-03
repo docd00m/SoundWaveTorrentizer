@@ -46,7 +46,7 @@ def bbcode_compact(metadata):
     if "albumartist" in first_track:
         output += "[size=22][b]"
         if "musicbrainz_albumartistid" in first_track:
-            output += f"[url=https://musicbrainz.org/artist/{first_track["musicbrainz_albumartistid"]}]"
+            output += f"[url=https://musicbrainz.org/artist/{first_track['musicbrainz_albumartistid']}]"
         output += first_track["albumartist"]
         if "musicbrainz_albumartistid" in first_track:
             output += "[/url]"
@@ -62,20 +62,20 @@ def bbcode_compact(metadata):
         output += "[/b][/size]\n"
 
     if "date" in first_track:
-        output += f"[size=16]{first_track["date"]}[/size]\n"
+        output += f"[size=16]{first_track['date']}[/size]\n"
 
-    output += (f"[size=16]{first_track["codec"]} / {first_track["channels"]} ch / {first_track["bits_per_sample"]} bit"
-              f" / {first_track["sample_rate"]}[/size]\n\n[list=1]")
+    output += (f"[size=16]{first_track['codec']} / {first_track['channels']} ch / {first_track['bits_per_sample']} bit"
+              f" / {first_track['sample_rate']}[/size]\n\n[list=1]")
 
     for track, track_info in metadata.items():
         output += "[*]"
         if track_info["embedded_cuesheet"]:
             output += ":cd:"
         if "spectrogram" in track_info and track_info["spectrogram"] != "N/A":
-            output += f" [url={track_info["spectrogram"]}]:bar_chart:[/url]"
+            output += f" [url={track_info['spectrogram']}]:bar_chart:[/url]"
 
-        output += (f"{track_info["artist"]} - {track_info["title"]} / {track_info["duration"]} "
-                   f"/ {track_info["bitrate"]} / {track_info["audio_md5"]}\n")
+        output += (f"{track_info['artist']} - {track_info['title']} / {track_info['duration']} "
+                   f"/ {track_info['bitrate']} / {track_info['audio_md5']}\n")
 
     output += ("[/list]\n\n"
                ":cd:: indicates the track contains an embedded cuesheet.\n"
