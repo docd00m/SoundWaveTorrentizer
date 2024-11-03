@@ -43,6 +43,9 @@ def bbcode_compact(metadata):
     # TODO: add albumartist, album, and release date to metadata for a better summary
     first_track = list(metadata.values())[0]
     output = ""
+    # TODO: this needs more work, folder won't always be the right image name for this.
+    if "albumart" in first_track and "folder" in first_track["albumart"]:
+        output += f"[center][img width=400]{first_track['albumart']['folder']}[/img][/center]\n\n"
     if "albumartist" in first_track:
         output += "[size=22][b]"
         if "musicbrainz_albumartistid" in first_track:
